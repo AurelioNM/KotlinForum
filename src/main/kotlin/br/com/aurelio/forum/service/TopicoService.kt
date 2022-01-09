@@ -3,6 +3,7 @@ package br.com.aurelio.forum.service
 import br.com.aurelio.forum.controller.TopicoView
 import br.com.aurelio.forum.dto.AtualizacaoTopicoForm
 import br.com.aurelio.forum.dto.NovoTopicoForm
+import br.com.aurelio.forum.exception.NotFoundException
 import br.com.aurelio.forum.mapper.TopicoFormMapper
 import br.com.aurelio.forum.mapper.TopicoViewMapper
 import br.com.aurelio.forum.model.Topico
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 class TopicoService(
     private var topicos: List<Topico> = ArrayList(),
     private val topicoViewMapper: TopicoViewMapper,
-    private val topicoFormMapper: TopicoFormMapper
+    private val topicoFormMapper: TopicoFormMapper,
+    private val notFoundMessage: String = "Topico nao encontrado!"
     ) {
 
     fun listar(): List<TopicoView> {
@@ -22,7 +24,7 @@ class TopicoService(
     fun buscarPorId(id: Long): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
 
         return topicoViewMapper.map(topico)
     }
@@ -37,7 +39,7 @@ class TopicoService(
     fun atualizar(form: AtualizacaoTopicoForm): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == form.id
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
         val topicoAtualizado = Topico(
             id = form.id,
             titulo = form.titulo,
@@ -55,7 +57,7 @@ class TopicoService(
     fun deletar(id: Long) {
         val topico = topicos.stream().filter { t ->
             t.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
         topicos = topicos.minus(topico)
     }
 
