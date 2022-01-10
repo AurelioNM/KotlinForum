@@ -1,6 +1,6 @@
 package br.com.aurelio.forum.mapper
 
-import br.com.aurelio.forum.controller.TopicoView
+import br.com.aurelio.forum.dto.TopicoView
 import br.com.aurelio.forum.model.Topico
 import org.springframework.stereotype.Component
 

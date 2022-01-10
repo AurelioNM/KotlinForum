@@ -1,4 +1,4 @@
-package br.com.aurelio.forum.controller
+package br.com.aurelio.forum.dto
 
 import br.com.aurelio.forum.model.StatusTopico
 import java.time.LocalDateTime

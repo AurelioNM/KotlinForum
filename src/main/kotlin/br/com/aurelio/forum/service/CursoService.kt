@@ -1,27 +1,17 @@
 package br.com.aurelio.forum.service
 
 import br.com.aurelio.forum.model.Curso
+import br.com.aurelio.forum.repository.CursoRepository
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class CursoService(
-    var cursos: List<Curso>
+    private val repository: CursoRepository
 ) {
 
-    init {
-        val curso = Curso(
-            id = 1,
-            nome = "Kotlin",
-            categoria = "Programacao"
-        )
-        cursos = Arrays.asList(curso)
-    }
-
     fun buscarPorId(id: Long): Curso {
-        return cursos.stream().filter { c ->
-            c.id == id
-        }.findFirst().get()
+        return repository.getOne(id)
     }
 
 }
